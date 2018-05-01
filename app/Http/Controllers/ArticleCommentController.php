@@ -10,8 +10,10 @@ use App\Http\Controllers\Controller;
 
 class ArticleCommentController extends Controller
 {
+   /* it shows all the comments
+   for the article */
    
-    public function index($id)
+    public function index()
     {
        $comment = Comment::all();
        return response()->json($comment);
