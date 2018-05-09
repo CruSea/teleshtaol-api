@@ -24,7 +24,7 @@ Route::post('check', 'JwtAuthenticateController@checkRoles');
 
 Route::group(['prefix' => 'api', 'middleware' => ['ability:admin,create-users']], function()
 {
-        Route::get('users', 'JwtAuthenticateController@index');
+    Route::get('users', 'JwtAuthenticateController@index');
 
 });
 Route::group(['prefix' => 'api', 'middleware' => ['ability:admin,create-users']], function()
@@ -79,5 +79,5 @@ Route::put('comments/{article}/{id}' , 'ArticleCommentController@edit');
 // Route::post('/article', 'ArticleController@store');
 // // delete article
 // Route::delete('/article{$id}', 'ArticleController@destroy');
-Route::get('article/{id}/islikedbyme', 'API\PostController@isLikedByMe');
-Route::post('article/like', 'API\PostController@like');
+// Route::get('article/{id}/islikedbyme', 'API\PostController@isLikedByMe');
+// Route::post('article/like', 'API\PostController@like');

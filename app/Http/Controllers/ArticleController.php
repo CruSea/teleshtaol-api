@@ -103,9 +103,9 @@ class ArticleController extends Controller
  public function show($id) 
     {
         $article = Article::with('Category')->where('id', '=', $id)->first();
-        $comment = Comment::all();
+        $comment = Comment::where('article_id', '=', $id)->get();
         // $category = Category::where('article_id', '=' , $id)->first();
-        return response()->json(['article' => $article]);
+        return response()->json([ 'article' => $article, 'comment' => $comment]);
           
     }
   

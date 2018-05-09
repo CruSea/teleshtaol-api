@@ -11,7 +11,10 @@ class ArticlesTableSeeder extends Seeder
      */
     public function run()
     {
-        // Model::unguard();
+        factory(App\Article::class, 30)->create();
+        // factory(App\Comment::class, 10)->create();
+    }
+    // Model::unguard();
 
         // // $this->call(UserTableSeeder::class);
         // DB::table('article')->delete();
@@ -28,6 +31,4 @@ class ArticlesTableSeeder extends Seeder
         // }
 
         // Model::reguard();
-        factory(App\Article::class, 30)->create();
-    }
 }

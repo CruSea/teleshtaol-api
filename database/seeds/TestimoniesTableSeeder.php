@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Testimony;
 
-class role extends Seeder
+class TestimoniesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +12,6 @@ class role extends Seeder
      */
     public function run()
     {
-   
-       
+        factory(App\Testimony::class, 30)->create();     
     }
 }
