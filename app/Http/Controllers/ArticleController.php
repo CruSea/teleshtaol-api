@@ -27,11 +27,12 @@ class ArticleController extends Controller
 
     $articles = Article::paginate(15);
     // ArticleResource::collection
-    
-    return  response()->json($articles);
-    // print "hello before article";
-    //     $articles = Article::get();
-    // return json_encode($articles);
+
+
+        return response()->json([
+            "articles" => $articles,
+
+        ]);
         
     }
 
@@ -89,7 +90,9 @@ class ArticleController extends Controller
        
         $article->save();
 
-        return response()->json($article);
+        return response()->json([
+            "articles" => $article
+        ]);
     // $post->user_id = auth()->user()->id;
     }
     
@@ -117,7 +120,9 @@ class ArticleController extends Controller
          $article->body = $request->input('body');
         $article->save();
 
-        return response()->json($article);
+        return response()->json([
+            "articles" => $article
+        ]);
 
     }
    
@@ -132,7 +137,9 @@ public function destroy($id)
     {  
         $article = Article::find($id);
           $article->delete();
-            return response()->json($article);
+        return response()->json([
+            "articles" => $article
+        ]);
            
        
         

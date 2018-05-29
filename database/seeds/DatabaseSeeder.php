@@ -16,21 +16,23 @@ class DatabaseSeeder extends Seeder
     {
     //    working role user seeder
 
+     $this->call(UserTableSeeder::class);
+    
+     DB::table('roles')->insert( array(
+            ['name' => 'admin'],
+            ['name' => 'Writer'],
+            ['name' => 'User'],
+        )); 
         DB::table('role_user')->insert( array(
             ['user_id' => '1', 'role_id' =>'1'],
             ['user_id' => '2', 'role_id' =>'2'],
             ['user_id' => '3', 'role_id' =>'3'],
           ));
           
-         $this->call(UserTableSeeder::class);
+         
 
-      DB::table('roles')->insert( array(
-            ['name' => 'admin'],
-            ['name' => 'Writer'],
-            ['name' => 'User'],
-          )); 
 
-         //  $this->call(ArticlesTableSeeder::class);
+         $this->call(ArticlesTableSeeder::class);
         
         
         // $this->call(UserTableSeeder::class);
@@ -40,13 +42,13 @@ class DatabaseSeeder extends Seeder
          
     */
 
-    /*    working seeder for categories
+      
        DB::table('categories')->insert( array(
             ['name' => 'addiction'],
             ['name' => 'marriage'],
             ['name' => 'health'],
        ));  
-    */
+    
 
     /* body seeder not working
        DB::table('testimonies')->insert( array(
