@@ -27,10 +27,10 @@ Route::group(['prefix' => 'api', 'middleware' => ['ability:admin,create-users']]
     Route::get('users', 'JwtAuthenticateController@index');
 
 });
-Route::group(['prefix' => 'api', 'middleware' => ['ability:admin,create-users']], function()
+Route::group(['prefix' => '', 'middleware' => ['ability:admin,create-users']], function()
 {
     Route::get('profile', 'JwtAuthenticateController@userProfile');
-    
+    Route::resource('/article', 'ArticleController');
 
 });
        
@@ -39,8 +39,10 @@ Route::group(['prefix' => 'api', 'middleware' => ['ability:admin,create-users']]
 Route::post('/authenticate', 'JwtAuthenticateController@authenticate');
 Route::post('/register','JwtAuthenticateController@register');
 
-// resources Article
-Route::resource('article', 'ArticleController');
+// resources  for Article
+// Route::resource('/article', 'ArticleController');
+
+
 // testimonies
 Route::resource('testimony', 'TestimonyController');
 Route::put('testimonies/{id}', 'TestimonyController@approveTestimony');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 use App\Article;
 use App\category;
 use App\Comment;
@@ -24,15 +25,16 @@ class ArticleController extends Controller
      */
   public function index()
     {
-
-    $articles = Article::paginate(15);
+         $user_id = Article::all('user_id');
+     
+         $user = User::where('id', [$user_id])->first();
+         $articles = Article::with('user')->with('category')->paginate(15);
+    
+    
     // ArticleResource::collection
 
 
-        return response()->json([
-            "articles" => $articles,
-
-        ]);
+        return response()->json( $articles);
         
     }
 
@@ -87,7 +89,7 @@ class ArticleController extends Controller
         $article->body = $request->input('body');
         $article->category_id = $request->input('category');
         $article->cover_image = $fileNameToStore;
-       
+        $article->user_id = auth()->user()->id;
         $article->save();
 
         return response()->json([
@@ -114,12 +116,39 @@ class ArticleController extends Controller
   
     public function update(request $request, $id)
     {
+            if($request->hasFile('cover_image')){
+            $file = $request->file('cover_image');
+            // get File Name With Extenstion
+        $filenameWithExt = $request->file('cover_image')->getClientOriginalName();
+        // Get just file name
+        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        // Get Just ext
+        $extension = $request->file('cover_image')->getClientOriginalExtension();
+        // file name to store 
+        $fileNameToStore= $filename.'_'.time().'.'.$extension;
+        // uplload Image
+        // $path = Storage::disk('local')->put( 'avatars', $file_get_contents($request->file('cover_image')->getRealPath()));
+
+        //  $path = $request->file('cover_image')->storeAs('public/cover_images', $fileNameToStore);
+        //  $path = Storage::disk('local')->put($fileNameToStore,  File::get($file));
+        $destinationPath = public_path('/articles/');
+            $file->move($destinationPath, $fileNameToStore);
+            
+        }
+         else
+          {
+            $fileNameToStore = 'noimage.jpg';
+          }
+
          
            $article = Article::find($id);
-          $article->title = $request->input('title');
-         $article->body = $request->input('body');
-        $article->save();
-
+           $article->title = $request->input('title');
+           $article->body = $request->input('body');
+           $article->category_id = $request->input('category');
+           $article->cover_image = $fileNameToStore;
+            $article->user_id = auth()->user()->id;
+           $article->save();
+  
         return response()->json([
             "articles" => $article
         ]);
