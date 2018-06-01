@@ -41,7 +41,7 @@ Route::post('/register','JwtAuthenticateController@register');
 
 // resources  for Article
 // Route::resource('/article', 'ArticleController');
-
+// Route::get('/article', 'ArticleController');
 
 // testimonies
 Route::resource('testimony', 'TestimonyController');

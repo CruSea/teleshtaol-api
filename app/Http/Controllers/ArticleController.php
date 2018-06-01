@@ -28,7 +28,7 @@ class ArticleController extends Controller
          $user_id = Article::all('user_id');
      
          $user = User::where('id', [$user_id])->first();
-         $articles = Article::with('user')->with('category')->paginate(15);
+         $articles = Article::with('user')->with('category')->paginate(10);
     
     
     // ArticleResource::collection
