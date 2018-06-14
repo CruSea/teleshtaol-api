@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Testimony;
+use App\User;
 class TestimonyController extends Controller
 {
     /**
@@ -17,21 +18,21 @@ class TestimonyController extends Controller
      */
     public function index()
     {
-        $testimony =  Testimony::orderBy('created_at', 'desc')->paginate(10);
+        $testimony =  Testimony::orderBy('created_at', 'desc')->with('user')->paginate(10);
        
-        return response()->json($testimony);
+        return response()->json( $testimony);
     }
     // approved tedstimonies
     public function showapproved()
     {
-        $testimony =  Testimony::where('approval', 1)->orderBy('created_at', 'desc')->paginate(10);
+        $testimony =  Testimony::where('approval', 1)->with('user')->orderBy('created_at', 'desc')->paginate(10);
        
         return response()->json($testimony);
     }
     // Disapprove testimonies 
     public function showDisapproved()
     {
-        $testimony =  Testimony::where('approval', 0)->orderBy('created_at', 'desc')->paginate(10);
+        $testimony =  Testimony::where('approval', 0)->with('user')->orderBy('created_at', 'desc')->paginate(10);
        
         return response()->json($testimony);
     }
@@ -55,6 +56,8 @@ class TestimonyController extends Controller
         // $post->user_id = auth()->user()->id;
         $testimony->title = $request->input('title');
         $testimony->body = $request->input('body');
+        $testimony->approval = $request->input('approval');
+        $testimony->user_id = auth()->user()->id;
         $testimony->save();
 
         return response()->json($testimony);
@@ -111,6 +114,7 @@ class TestimonyController extends Controller
         // var_dump($testimony->title);
         $testimony->title = $request->input('title');
         $testimony->body = $request->input('body');
+        $testimony->approval = $request->input('approval');
         // $data =$request->all();
         // $testimony->fill($data);
         $testimony->save();

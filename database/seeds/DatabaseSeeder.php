@@ -16,23 +16,37 @@ class DatabaseSeeder extends Seeder
     {
     //    working role user seeder
 
-     $this->call(UserTableSeeder::class);
+     // $this->call(UserTableSeeder::class);
+
+     DB::table('permissions')->insert( array(
+            ['name' => 'create-users'],
+            ['name' => 'create-article'],
+            ['name' => 'assign-admin'],
+       ));  
+     DB::table('permission_role')->insert( array(
+            ['permission_id' => '1', 'role_id' => '1'],
+            ['permission_id' => '2', 'role_id' => '1'],
+            ['permission_id' => '2',  'role_id' => '2'],
+            ['permission_id' => '3', 'role_id' => '1'],
+            ['permission_id' => '1', 'role_id' => '2'],
+       ));  
     
-     DB::table('roles')->insert( array(
-            ['name' => 'admin'],
-            ['name' => 'Writer'],
-            ['name' => 'User'],
-        )); 
-        DB::table('role_user')->insert( array(
-            ['user_id' => '1', 'role_id' =>'1'],
-            ['user_id' => '2', 'role_id' =>'2'],
-            ['user_id' => '3', 'role_id' =>'3'],
-          ));
+    
+     // DB::table('roles')->insert( array(
+     //        ['name' => 'admin'],
+     //        ['name' => 'Writer'],
+     //        ['name' => 'User'],
+     //    )); 
+     //    DB::table('role_user')->insert( array(
+     //        ['user_id' => '1', 'role_id' =>'1'],
+     //        ['user_id' => '2', 'role_id' =>'2'],
+     //        ['user_id' => '3', 'role_id' =>'3'],
+     //      ));
           
          
 
 
-         $this->call(ArticlesTableSeeder::class);
+     //     $this->call(ArticlesTableSeeder::class);
         
         
         // $this->call(UserTableSeeder::class);
@@ -43,11 +57,11 @@ class DatabaseSeeder extends Seeder
     */
 
       
-       DB::table('categories')->insert( array(
-            ['name' => 'addiction'],
-            ['name' => 'marriage'],
-            ['name' => 'health'],
-       ));  
+       // DB::table('categories')->insert( array(
+       //      ['name' => 'addiction'],
+       //      ['name' => 'marriage'],
+       //      ['name' => 'health'],
+       // ));  
     
 
     /* body seeder not working

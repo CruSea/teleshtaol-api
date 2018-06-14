@@ -12,6 +12,31 @@
 */
 use Illuminate\Http\Request;
 use App\Http\Requests;
+
+
+Route::group(['prefix' => '', 'middleware' => ['ability:admin,create-users']], function()
+{	
+	// Articles routes
+	Route::get('/article', 'ArticleController@index');
+	Route::post('/article', 'ArticleController@store');
+	Route::put('/article/{id}', 'ArticleController@update');
+	Route::delete('/article/{id}', 'ArticleController@destroy');
+	
+	// Testimonies routes
+	
+	Route::get('/testimony', 'TestimonyController@index');
+	Route::post('/testimony', 'TestimonyController@store');
+	Route::put('/testimony', 'TestimonyController@update');
+	Route::delete('/testimony', 'TestimonyController@destroy');
+
+    Route::get('profile', 'JwtAuthenticateController@userProfile');
+    Route::get('approved', 'TestimonyController@showapproved');
+    Route::get('disapproved', 'TestimonyController@showDisapproved');
+
+    Route::resource('category', 'CategoryController');
+
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -22,17 +47,12 @@ Route::post('assign-role', 'JwtAuthenticateController@assignRole');
 Route::post('attach-permission', 'JwtAuthenticateController@attachPermission');
 Route::post('check', 'JwtAuthenticateController@checkRoles');
 
-Route::group(['prefix' => 'api', 'middleware' => ['ability:admin,create-users']], function()
-{
-    Route::get('users', 'JwtAuthenticateController@index');
-
-});
 Route::group(['prefix' => '', 'middleware' => ['ability:admin,create-users']], function()
 {
-    Route::get('profile', 'JwtAuthenticateController@userProfile');
-    Route::resource('/article', 'ArticleController');
+    Route::get('no_users', 'JwtAuthenticateController@noUsers');
 
 });
+
        
 // Route::get('profile/{id}', 'JwtAuthenticateController@userProfile');
 
@@ -44,10 +64,11 @@ Route::post('/register','JwtAuthenticateController@register');
 // Route::get('/article', 'ArticleController');
 
 // testimonies
-Route::resource('testimony', 'TestimonyController');
-Route::put('testimonies/{id}', 'TestimonyController@approveTestimony');
-Route::get('approved', 'TestimonyController@showapproved');
-Route::get('disapproved', 'TestimonyController@showDisapproved');
+// Route::resource('testimony', 'TestimonyController');
+// Route::put('testimonies/{id}', 'TestimonyController@approveTestimony');
+
+// Route::get('approved', 'TestimonyController@showapproved');
+// Route::get('disapproved', 'TestimonyController@showDisapproved');
 
 // testimony comment
 
@@ -61,8 +82,11 @@ Route::get('testimonycomment/{testimonyId}', 'TestimonyCommentController@display
 Route::put('testimonycomment/{testimony}/{id}' , 'TestimonyCommentController@edit');
 // 
 // catagories
-Route::post('category', 'CategoryController@createCategory');
- Route::resource('category', 'CategoryController');
+
+// Route::post('category', 'CategoryController@createCategory');
+//  Route::get('category', 'CategoryController@index');
+  
+  
 // comment
 // Route::post('comments/{$article_id}', ['uses' => 'ArticleCommentController@store', 'as' => 'comments.store']);
 Route::post('comments/{articleId}', 'ArticleCommentController@store');

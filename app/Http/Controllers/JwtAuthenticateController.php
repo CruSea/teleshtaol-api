@@ -22,10 +22,18 @@ class JwtAuthenticateController extends Controller
     {
         return response()->json(['auth'=>Auth::user(), 'users'=>User::all()]);
     }
-    public function userProfile(){
+   public function userProfile(){
         $user_id = auth()->user()->id;
+        $user_name = User::where('id', '=', $user_id)->get();
         $user_articles =  Article::where('user_id', '=', $user_id)->get();
-        return response()->json(['user' => $user_id, 'Articles by the user' => $user_articles]);
+        return response()->json(['profile' => ['user' =>
+          $user_name, 'Articles by the user' => $user_articles]]);
+        // $user_id, 'Articles by the user' => $user_articles
+    }
+    public function noUsers(){
+        $users = User::all()->count();
+        return response()->json([
+            'Total users' => $users]);
     }
 
     
