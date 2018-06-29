@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -19,21 +18,21 @@ class TestimonyController extends Controller
     public function index()
     {
         $testimony =  Testimony::orderBy('created_at', 'desc')->with('user')->paginate(10);
-       
+
         return response()->json( $testimony);
     }
     // approved tedstimonies
     public function showapproved()
     {
         $testimony =  Testimony::where('approval', 1)->with('user')->orderBy('created_at', 'desc')->paginate(10);
-       
+
         return response()->json($testimony);
     }
-    // Disapprove testimonies 
+    // Disapprove testimonies
     public function showDisapproved()
     {
         $testimony =  Testimony::where('approval', 0)->with('user')->orderBy('created_at', 'desc')->paginate(10);
-       
+
         return response()->json($testimony);
     }
 
@@ -46,9 +45,6 @@ class TestimonyController extends Controller
     {
         //
     }
-
-   
-
 
     public function store(Request $request)
     {
@@ -66,14 +62,14 @@ class TestimonyController extends Controller
 
 
 
-    
+
     public function approveTestimony(Request $request, $id)
     {
-       
+
         $testimony = Testimony::find($id);
         $testimony->approval = $request->input('approve');
         $testimony->save();
-        
+
         return response()->json( [ "testimony" => $testimony]);
     }
 

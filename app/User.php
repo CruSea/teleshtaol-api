@@ -37,8 +37,8 @@ class User extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
-    public function likes()
-{
+    public function likes(){
+        
     return $this->belongsToMany('App\Artice', 'likes', 'user_id', 'article_id');
 }
 }

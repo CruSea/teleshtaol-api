@@ -13,47 +13,68 @@
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
-
-Route::group(['prefix' => '', 'middleware' => ['ability:admin,create-users']], function()
-{	
+Route::group(['prefix' => '', 'middleware' => ['ability:admin,create-users']], function(){
 	// Articles routes
 	Route::get('/article', 'ArticleController@index');
 	Route::post('/article', 'ArticleController@store');
+Route::get('/article/{id}', 'ArticleController@show');
 	Route::put('/article/{id}', 'ArticleController@update');
 	Route::delete('/article/{id}', 'ArticleController@destroy');
-	
-	// Testimonies routes
-	
-	Route::get('/testimony', 'TestimonyController@index');
-	Route::post('/testimony', 'TestimonyController@store');
-	Route::put('/testimony', 'TestimonyController@update');
-	Route::delete('/testimony', 'TestimonyController@destroy');
 
-    Route::get('profile', 'JwtAuthenticateController@userProfile');
+	// Testimonies routes
+
+
+	Route::get('/testimony', 'TestimonyController@index');
+	Route::get('/testimony/{id}', 'TestimonyController@show');
+	Route::post('/testimony', 'TestimonyController@store');
+	Route::put('/testimony/{id}', 'TestimonyController@update');
+	Route::delete('/testimony/{id}', 'TestimonyController@destroy');
+
+
     Route::get('approved', 'TestimonyController@showapproved');
     Route::get('disapproved', 'TestimonyController@showDisapproved');
 
-    Route::resource('category', 'CategoryController');
+    Route::get('category', 'CategoryController@index');
+    Route::get('category/{id}', 'CategoryController@show');
+    Route::post('category', 'CategoryController@store');
+   Route::put('category/{id}', 'CategoryController@update');
+    Route::delete('category/{id}', 'CategoryController@destroy');
 
+     Route::get('stat', 'JwtAuthenticateController@total');
+    Route::get('profile', 'JwtAuthenticateController@userProfile');
 });
 
 Route::get('/', function () {
     return view('welcome');
 });
+// Route::resource('category', 'CategoryController');
 
-Route::post('role', 'JwtAuthenticateController@createRole');
-Route::post('permission', 'JwtAuthenticateController@createPermission');
-Route::post('assign-role', 'JwtAuthenticateController@assignRole');
-Route::post('attach-permission', 'JwtAuthenticateController@attachPermission');
-Route::post('check', 'JwtAuthenticateController@checkRoles');
 
-Route::group(['prefix' => '', 'middleware' => ['ability:admin,create-users']], function()
+Route::group(['prefix' => 'admin', 'middleware' => ['ability:admin,assign-admin']], function()
 {
-    Route::get('no_users', 'JwtAuthenticateController@noUsers');
+	Route::get('roles/all', 'RolesController@getRoles');
+	Route::get('roles', 'RolesController@paginatedRoles');
+	Route::post('roles', 'RolesController@store');
+	Route::put('roles', 'RolesController@update');
+	Route::delete('roles/{id}', 'RolesController@destroy');
+	// permissions
+	Route::post('permissions', 'PermissionsController@store');
+	Route::put('permissions', 'PermissionsController@update');
+	Route::get('permissions/all', 'PermissionsController@getPermissions');
+	Route::get('permissions', 'PermissionsController@paginatedPermissions');
+	Route::delete('permissions/{id}', 'PermissionsController@destroy');
 
+// just here
+	Route::get('users', 'JwtAuthenticateController@index');
+	Route::post('role', 'JwtAuthenticateController@createRole');
+	Route::post('permission', 'JwtAuthenticateController@createPermission');
+	Route::post('assign-role', 'JwtAuthenticateController@assignRole');
+	Route::post('attach-permission', 'JwtAuthenticateController@attachPermission');
+	Route::post('check', 'JwtAuthenticateController@checkRoles');
+	Route::post('check-permissions', 'JwtAuthenticateController@checkPermissions');
 });
 
-       
+
 // Route::get('profile/{id}', 'JwtAuthenticateController@userProfile');
 
 Route::post('/authenticate', 'JwtAuthenticateController@authenticate');
@@ -80,13 +101,13 @@ Route::post('testimonycomment/{testimonyId}', 'TestimonyCommentController@store'
 Route::get('testimonycomment/{testimonyId}', 'TestimonyCommentController@displayComments');
 
 Route::put('testimonycomment/{testimony}/{id}' , 'TestimonyCommentController@edit');
-// 
+
 // catagories
 
 // Route::post('category', 'CategoryController@createCategory');
 //  Route::get('category', 'CategoryController@index');
-  
-  
+
+
 // comment
 // Route::post('comments/{$article_id}', ['uses' => 'ArticleCommentController@store', 'as' => 'comments.store']);
 Route::post('comments/{articleId}', 'ArticleCommentController@store');
