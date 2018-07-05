@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Log;
+use Illuminate\Support\Facades\mail;
 
 
 class JwtAuthenticateController extends Controller
@@ -164,5 +165,9 @@ class JwtAuthenticateController extends Controller
         ]);
     }
 
-
+    public function mail(){
+        Mail::send('emails.test',['name' => 'moss'], function($message){
+            $message->to('mssyonas@gmail.com', 'mossa')->subject-('welcome');
+        });
+    }
 }

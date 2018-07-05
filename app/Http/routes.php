@@ -79,7 +79,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['ability:admin,assign-admin'
 
 Route::post('/authenticate', 'JwtAuthenticateController@authenticate');
 Route::post('/register','JwtAuthenticateController@register');
-
+Route::post('/mail', 'JwtAuthenticateController@mail');
 // resources  for Article
 // Route::resource('/article', 'ArticleController');
 // Route::get('/article', 'ArticleController');

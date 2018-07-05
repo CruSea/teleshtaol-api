@@ -20,7 +20,7 @@ class CategoryController extends Controller
         $category = Category::all();
         return response()->json(['category' => $category]);
     }
-    
+
     public function store(Request $request){
         $category = new Category();
         $category->name = $request->input('name');
@@ -45,8 +45,8 @@ class CategoryController extends Controller
 
         $category = Category::findOrFail($id);
         // $comments = Comment::all();
-        $article = Article::where('category_id', '=', $id)->get();
-       
+        $article = Article::where('category_id', '=', $id)->orderBy('created_at', 'desc')->with('user')->with('category')->get();
+
         return response()-> json([ 'category' => $category , 'article' => $article]);
 
     }
@@ -54,8 +54,8 @@ class CategoryController extends Controller
         $category = Category::find($id);
         $category->delete();
             return response()->json($category);
-           
-       
-        
+
+
+
     }
 }
